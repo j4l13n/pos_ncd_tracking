@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pos_ncd_tracking_pos_ncd_tracking,pos_ncd_tracking.pos_ncd_tracking,model_pos_ncd_tracking_pos_ncd_tracking,base.group_user,1,1,1,1
