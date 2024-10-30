@@ -6,19 +6,50 @@
         <field name="inherit_id" ref="base.view_partner_form"/>  <!-- Inherit from the base partner form -->
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
+                <!-- NCD Information Group -->
                 <group string="NCD Information">
                     <field name="is_ncd_patient"/>  
                     <field name="ncd_history"/>      
                     <field name="current_treatment"/> 
+                    <field name="last_product_received" string="Last Product Received"/>
+                    <field name="next_reminder_date" string="Next Reminder Date"/>
+                    <field name="product_reminder_interval" string="Reminder Interval (Days)"/>
                 </group>
+                
+                <!-- Communication Log Table View -->
+                <group string="Communication Log">
+                    <field name="communication_log_ids" nolabel="1">
+                        <tree string="Communication Log">
+                            <field name="communication_date" string="Date"/>
+                            <field name="communication_type" string="Type"/>
+                            <field name="message_content" string="Message"/>
+                        </tree>
+                    </field>
+                </group>
+                
+                <!-- Customer Information Group -->
                 <group string="Customer Information">
-                    <field name="phone"/> <!-- Phone field from res.partner -->
-                    <field name="email"/> <!-- Email field from res.partner -->
-                    <field name="customer_rank"/> <!-- Customer rank field from res.partner -->
-                    <field name="street"/> <!-- Street address field from res.partner -->
-                    <field name="city"/> <!-- City field from res.partner -->
-                    <field name="zip"/> <!-- Zip code field from res.partner -->
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="customer_rank"/>
+                    <field name="street"/>
+                    <field name="city"/>
+                    <field name="zip"/>
                 </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Partner List View for Table Display -->
+    <record id="view_partner_tree_inherit_ncd" model="ir.ui.view">
+        <field name="name">res.partner.tree.inherit.ncd</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="is_ncd_patient"/>
+                <field name="last_product_received"/>
+                <field name="next_reminder_date"/>
             </xpath>
         </field>
     </record>

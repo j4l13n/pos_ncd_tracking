@@ -1,5 +1,6 @@
 <!-- pos_ncd_tracking/views/product_views.xml -->
 <odoo>
+    <!-- Form View for Product Template with NCD Attributes -->
     <record id="view_product_form_inherit_ncd" model="ir.ui.view">
         <field name="name">product.template.form.inherit.ncd</field>
         <field name="model">product.template</field>
@@ -7,10 +8,25 @@
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <group string="NCD Information">
-                    <field name="ncd_capable"/>        <!-- Custom field from your model -->
-                    <field name="expiration_date"/>    <!-- Custom field from your model -->
-                    <field name="ncd_notes"/>          <!-- Custom field from your model -->
+                    <field name="ncd_capable" />               <!-- Indicates if the product is for NCDs -->
+                    <field name="expiration_date" />           <!-- Track expiration date -->
+                    <field name="usage_duration_days" />       <!-- Expected usage duration -->
+                    <field name="ncd_notes" />                 <!-- Additional notes related to NCDs -->
                 </group>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- List View for NCD Products -->
+    <record id="view_product_tree_inherit_ncd" model="ir.ui.view">
+        <field name="name">product.template.tree.inherit.ncd</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="ncd_capable" />
+                <field name="expiration_date" />
+                <field name="usage_duration_days" />
             </xpath>
         </field>
     </record>

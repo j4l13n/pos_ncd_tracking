@@ -1,5 +1,6 @@
 <!-- pos_ncd_tracking/views/pos_order_views.xml -->
 <odoo>
+    <!-- Form View -->
     <record id="view_pos_order_form_inherit_ncd" model="ir.ui.view">
         <field name="name">pos.order.form.inherit.ncd</field>
         <field name="model">pos.order</field>
@@ -7,9 +8,23 @@
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <group string="NCD Information">
-                    <field name="ncd_patient_id"/>  <!-- Link to the NCD patient -->
+                    <field name="ncd_patient_id" options="{'no_open': True}"/>  <!-- Link to the NCD patient -->
                     <field name="ncd_product_ids" widget="many2many_tags"/>  <!-- Link to NCD products purchased -->
+                    <field name="product_received_date"/>  <!-- Date the product was received by patient -->
                 </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_pos_order_tree_inherit_ncd" model="ir.ui.view">
+        <field name="name">pos.order.tree.inherit.ncd</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>  <!-- Inherit from the existing POS order tree view -->
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="ncd_patient_id"/>  <!-- Add NCD Patient to the tree view -->
+                <field name="product_received_date"/>  <!-- Add Product Received Date to the tree view -->
             </xpath>
         </field>
     </record>

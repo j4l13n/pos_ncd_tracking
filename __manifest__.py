@@ -12,10 +12,9 @@
     'website': '',
     'depends': ['point_of_sale', 'base'],  # Add other dependencies as needed
     'data': [
-        # List your XML/CSV files here, e.g., views, security, etc.
-        # 'views/pos_order_views.xml',
-        # 'views/product_views.xml',
+        'security/ir.model.access.csv',
         'views/partner_views.xml',
+        'views/product_views.xml',
     ],
     'installable': True,
     'application': True,
