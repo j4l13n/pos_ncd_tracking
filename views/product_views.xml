@@ -1,0 +1,17 @@
+<!-- pos_ncd_tracking/views/product_views.xml -->
+<odoo>
+    <record id="view_product_form_inherit_ncd" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.ncd</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>  <!-- Inherit from the existing product form -->
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="NCD Information">
+                    <field name="ncd_capable"/>        <!-- Custom field from your model -->
+                    <field name="expiration_date"/>    <!-- Custom field from your model -->
+                    <field name="ncd_notes"/>          <!-- Custom field from your model -->
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

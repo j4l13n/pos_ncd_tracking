@@ -1,34 +1,24 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "pos_ncd_tracking",
-
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
-
-    'description': """
-Long description of module's purpose
-    """,
-
-    'author': "My Company",
-    'website': "https://www.yourcompany.com",
-
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
+    'name': 'POS NCD Tracking',
     'version': '0.1',
-
-    # any module necessary for this one to work correctly
-    'depends': ['base'],
-
-    # always loaded
+    'category': 'Healthcare',
+    'summary': 'Module for managing patients with Non-Communicable Diseases and product tracking in POS.',
+    'description': """
+        POS NCD Tracking Module for Patient and Product Management.
+        This module integrates with the existing Odoo POS functionalities to manage and monitor patients with NCDs.
+    """,
+    'author': 'Julien at ADFinance Rwanda Ltd',
+    'website': '',
+    'depends': ['point_of_sale', 'base'],  # Add other dependencies as needed
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        # List your XML/CSV files here, e.g., views, security, etc.
+        # 'views/pos_order_views.xml',
+        # 'views/product_views.xml',
+        'views/partner_views.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
 }
 

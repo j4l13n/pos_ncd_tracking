@@ -1,0 +1,16 @@
+<!-- pos_ncd_tracking/views/pos_order_views.xml -->
+<odoo>
+    <record id="view_pos_order_form_inherit_ncd" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.ncd</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_form"/>  <!-- Inherit from the existing POS order form -->
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="NCD Information">
+                    <field name="ncd_patient_id"/>  <!-- Link to the NCD patient -->
+                    <field name="ncd_product_ids" widget="many2many_tags"/>  <!-- Link to NCD products purchased -->
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

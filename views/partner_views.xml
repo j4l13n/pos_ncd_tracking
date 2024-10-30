@@ -1,0 +1,25 @@
+<!-- pos_ncd_tracking/views/partner_views.xml -->
+<odoo>
+    <record id="view_partner_form_inherit_ncd" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.ncd</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>  <!-- Inherit from the base partner form -->
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="NCD Information">
+                    <field name="is_ncd_patient"/>  
+                    <field name="ncd_history"/>      
+                    <field name="current_treatment"/> 
+                </group>
+                <group string="Customer Information">
+                    <field name="phone"/> <!-- Phone field from res.partner -->
+                    <field name="email"/> <!-- Email field from res.partner -->
+                    <field name="customer_rank"/> <!-- Customer rank field from res.partner -->
+                    <field name="street"/> <!-- Street address field from res.partner -->
+                    <field name="city"/> <!-- City field from res.partner -->
+                    <field name="zip"/> <!-- Zip code field from res.partner -->
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
