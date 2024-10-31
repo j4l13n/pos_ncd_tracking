@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <!-- Action to open the NCD Communication Log -->
+        <record id="action_ncd_communication_log" model="ir.actions.act_window">
+            <field name="name">NCD Communication Logs</field>
+            <field name="res_model">ncd.communication.log</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Tree View for NCD Communication Logs -->
+        <record id="view_ncd_communication_log_tree" model="ir.ui.view">
+            <field name="name">ncd.communication.log.tree</field>
+            <field name="model">ncd.communication.log</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="patient_id"/>
+                    <field name="communication_type"/>
+                    <field name="communication_date"/>
+                    <field name="next_communication_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for NCD Communication Logs -->
+        <record id="view_ncd_communication_log_form" model="ir.ui.view">
+            <field name="name">ncd.communication.log.form</field>
+            <field name="model">ncd.communication.log</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="patient_id" options="{'no_open': True}"/>
+                            <field name="communication_type"/>
+                            <field name="communication_date"/>
+                            <field name="message_content"/>
+                            <field name="next_communication_date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- New Menu Item under Orders Menu -->
+        <menuitem id="ncd_communication_log_menu" 
+                  name="NCD Communication Logs"
+                  parent="point_of_sale.menu_point_root" 
+                  action="action_ncd_communication_log" 
+                  sequence="10"/>
+    </data>
+</odoo>

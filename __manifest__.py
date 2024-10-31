@@ -13,6 +13,8 @@
     'depends': ['point_of_sale', 'base'],  # Add other dependencies as needed
     'data': [
         'security/ir.model.access.csv',
+        'data.xml',
+        'views/ncd_communication_log_views.xml',
         'views/partner_views.xml',
         'views/product_views.xml',
     ],

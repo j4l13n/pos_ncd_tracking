@@ -1,6 +1,6 @@
 # pos_ncd_tracking/models/models.py
 from odoo import models, fields, api
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'  # Inherit from the existing partner model
@@ -43,8 +43,20 @@ class PosOrder(models.Model):
             # Calculate the next reminder date based on product usage duration
             max_duration = max(order.ncd_product_ids.mapped('usage_duration_days'))
             patient.next_reminder_date = order.product_received_date + timedelta(days=max_duration)
-        return order
 
+            # Calculate the next communication date based on product attributes
+            for product in order.ncd_product_ids:
+                if product.ncd_capable and product.expiration_date:
+                    next_communication_date = product.expiration_date - timedelta(days=product.usage_duration_days)
+                    # Log the communication in NcdCommunicationLog
+                    self.env['ncd.communication.log'].create({
+                        'patient_id': patient.id,
+                        'communication_type': 'sms',  # Set to 'sms' as the default communication type
+                        'communication_date': fields.Datetime.now(),
+                        'next_communication_date': next_communication_date,
+                        'message_content': f"New order created for patient {patient.name} with NCD products."
+                    })
+        return order
 
 class NcdCommunicationLog(models.Model):
     _name = 'ncd.communication.log'
@@ -54,3 +66,17 @@ class NcdCommunicationLog(models.Model):
     communication_type = fields.Selection([('sms', 'SMS'), ('email', 'Email'), ('call', 'Call')], string='Communication Type')
     communication_date = fields.Datetime(string='Communication Date', default=fields.Datetime.now)
     message_content = fields.Text(string='Message Content')
+    next_communication_date = fields.Datetime(string='Next Communication Date')
+
+    @api.model
+    def send_scheduled_communications(self):
+        # Fetch all communication logs where the next communication date is today
+        today = fields.Datetime.now().date()
+        logs = self.search([('next_communication_date', '=', today)])
+        
+        for log in logs:
+            # Logic to send the message to the patient
+            patient = log.patient_id
+            message = log.message_content
+            # Example: send_message(patient, message)
+            print(f"Sending message to {patient.name}: {message}")  # Replace with actual sending logic
