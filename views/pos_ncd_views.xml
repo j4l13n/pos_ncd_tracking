@@ -1,0 +1,22 @@
+<!-- views/pos_ncd_views.xml -->
+<odoo>
+    <record id="view_res_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.ncd</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="is_ncd_patient" required="1"/>
+                        <field name="ncd_history"/>
+                        <field name="current_treatment"/>
+                        <field name="last_product_received"/>
+                        <field name="next_reminder_date"/>
+                        <field name="product_reminder_interval"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

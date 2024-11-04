@@ -1,4 +1,3 @@
-<!-- pos_ncd_tracking/views/partner_views.xml -->
 <odoo>
     <record id="view_partner_form_inherit_ncd" model="ir.ui.view">
         <field name="name">res.partner.form.inherit.ncd</field>
@@ -12,6 +11,7 @@
                     <field name="ncd_history"/>      
                     <field name="current_treatment"/> 
                     <field name="last_product_received" string="Last Product Received"/>
+                    <field name="sms_opt_in" />
                     <field name="next_reminder_date" string="Next Reminder Date"/>
                     <field name="product_reminder_interval" string="Reminder Interval (Days)"/>
                 </group>
@@ -35,21 +35,9 @@
                     <field name="street"/>
                     <field name="city"/>
                     <field name="zip"/>
+                    <!-- Removed partner_type field -->
+                    <field name="website" string="Website"/>
                 </group>
-            </xpath>
-        </field>
-    </record>
-
-    <!-- Partner List View for Table Display -->
-    <record id="view_partner_tree_inherit_ncd" model="ir.ui.view">
-        <field name="name">res.partner.tree.inherit.ncd</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//tree" position="inside">
-                <field name="is_ncd_patient"/>
-                <field name="last_product_received"/>
-                <field name="next_reminder_date"/>
             </xpath>
         </field>
     </record>

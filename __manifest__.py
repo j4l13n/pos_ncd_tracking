@@ -10,16 +10,23 @@
     """,
     'author': 'Julien at ADFinance Rwanda Ltd',
     'website': '',
-    'depends': ['point_of_sale', 'base'],  # Add other dependencies as needed
+    'depends': ['base', 'point_of_sale', 'sms'],  # Add other dependencies as needed
     'data': [
         'security/ir.model.access.csv',
         'data.xml',
         'views/ncd_communication_log_views.xml',
         'views/partner_views.xml',
         'views/product_views.xml',
+        'views/pos_ncd_views.xml',
     ],
+    'assets': {
+        'point_of_sale.assets': [
+            'pos_ncd_tracking/static/src/js/ncd_pos.js',  # Include your JavaScript file
+        ],
+    },
     'installable': True,
     'application': True,
-    'auto_install': False,
+    'auto_install': True,
+    'license': 'LGPL-3',
 }
 
