@@ -154,3 +154,8 @@ class NcdCommunicationLog(models.Model):
                     print(f"Failed to send SMS to {patient.name}: {response_data.get('error', 'Unknown error')}")
             except Exception as e:
                 print(f"Failed to send SMS to {patient.name}: {str(e)}")
+
+    def send_current_message(self):
+        """Send the current message content to the patient."""
+        if self.patient_id and self.message_content:
+            self.send_sms(self.patient_id, self.message_content)
