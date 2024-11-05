@@ -35,6 +35,7 @@
                             <field name="message_content"/>
                             <field name="next_communication_date"/>
                         </group>
+                        <button name="send_current_message" type="object" string="Send Message" class="btn-primary"/>
                     </sheet>
                 </form>
             </field>
