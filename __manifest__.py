@@ -10,7 +10,7 @@
     """,
     'author': 'Julien at ADFinance Rwanda Ltd',
     'website': '',
-    'depends': ['base', 'point_of_sale', 'sms'],  # Add other dependencies as needed
+    'depends': ['base', 'point_of_sale'],  # Add other dependencies as needed
     'data': [
         'security/ir.model.access.csv',
         'data.xml',
@@ -18,6 +18,7 @@
         'views/partner_views.xml',
         'views/product_views.xml',
         'views/pos_ncd_views.xml',
+        'views/settings_view.xml',
     ],
     'assets': {
         'point_of_sale.assets': [
