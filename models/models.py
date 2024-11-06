@@ -4,9 +4,11 @@ from datetime import timedelta
 import requests
 import base64
 import os
+from odoo import api, SUPERUSER_ID
 
 # Define the token constant
-SMS_AUTH_TOKEN = os.getenv('SMS_AUTH_TOKEN', '')  # Fetch from .env
+SMS_AUTH_USERNAME = '' # Initialize sms auth username as empty
+SMS_AUTH_TOKEN = ''  # Initialize sms auth token as empty
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -39,6 +41,10 @@ class PosOrder(models.Model):
 
     @api.model
     def create(self, vals):
+        global SMS_AUTH_TOKEN  # Declare the sms auth token as global
+        global SMS_AUTH_USERNAME # Declare the auth username as global
+        SMS_AUTH_TOKEN = self.env['ir.config_parameter'].sudo().get_param('sms_auth_token')  # Fetch from Odoo settings
+        SMS_AUTH_USERNAME = self.env['ir.config_parameter'].sudo().get_param('sms_auth_username') # Featch from username from odoo settings
         order = super(PosOrder, self).create(vals)
         
         has_patient = order.ncd_patient_id is not None
@@ -87,7 +93,7 @@ class PosOrder(models.Model):
             }
             data = {
                 'recipients': patient.phone,
-                'sender': 'ADBanking',
+                'sender': f'{SMS_AUTH_USERNAME or 'ADBanking'}',
                 'message': message
             }
             try:
@@ -113,6 +119,8 @@ class NcdCommunicationLog(models.Model):
 
     @api.model
     def send_scheduled_communications(self):
+        global SMS_AUTH_TOKEN  # Declare the variable as global
+        SMS_AUTH_TOKEN = self.env['ir.config_parameter'].sudo().get_param('sms_auth_token')  # Fetch from Odoo settings
         today = fields.Datetime.now().date()
         logs = self.search([('next_communication_date', '=', today)])
         
@@ -142,7 +150,7 @@ class NcdCommunicationLog(models.Model):
             }
             data = {
                 'recipients': patient.phone,
-                'sender': 'ADBanking',
+                'sender': f'{SMS_AUTH_USERNAME or 'ADBanking'}',
                 'message': message
             }
             try:
@@ -159,3 +167,23 @@ class NcdCommunicationLog(models.Model):
         """Send the current message content to the patient."""
         if self.patient_id and self.message_content:
             self.send_sms(self.patient_id, self.message_content)
+
+
+class SmsSettings(models.TransientModel):
+    _inherit = 'res.config.settings'
+
+    sms_auth_username = fields.Char(string='SMS Auth Username')
+    sms_auth_token = fields.Char(string='SMS Auth Token')
+
+    def set_values(self):
+        super(SmsSettings, self).set_values()
+        self.env['ir.config_parameter'].sudo().set_param('sms_auth_token', self.sms_auth_token)
+        self.env['ir.config_parameter'].sudo().set_param('sms_auth_username', self.sms_auth_username)
+
+    def get_values(self):
+        res = super(SmsSettings, self).get_values()
+        res.update({
+            'sms_auth_token': self.env['ir.config_parameter'].sudo().get_param('sms_auth_token'),
+            'sms_auth_username': self.env['ir.config_parameter'].sudo().get_param('sms_auth_username')
+        })
+        return res

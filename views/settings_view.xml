@@ -1,0 +1,27 @@
+<!-- pos_ncd_tracking/views/settings_view.xml -->
+<odoo>
+    <record id="view_sms_settings" model="ir.ui.view">
+        <field name="name">sms.settings.view</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <group string="SMS Settings" class="mt16">
+                    <field name="sms_auth_username" string="SMS Auth Username"/>
+                    <field name="sms_auth_token" string="SMS Auth Token"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action for accessing SMS Settings -->
+    <record id="action_sms_settings" model="ir.actions.act_window">
+        <field name="name">SMS Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu item for SMS Settings -->
+    <menuitem id="menu_sms_settings" name="SMS Settings" parent="base.menu_config" action="action_sms_settings"/>
+</odoo>
