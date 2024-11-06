@@ -7,7 +7,8 @@ import os
 from odoo import api, SUPERUSER_ID
 
 # Define the token constant
-SMS_AUTH_TOKEN = ''  # Initialize as empty
+SMS_AUTH_USERNAME = '' # Initialize sms auth username as empty
+SMS_AUTH_TOKEN = ''  # Initialize sms auth token as empty
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -40,8 +41,10 @@ class PosOrder(models.Model):
 
     @api.model
     def create(self, vals):
-        global SMS_AUTH_TOKEN  # Declare the variable as global
+        global SMS_AUTH_TOKEN  # Declare the sms auth token as global
+        global SMS_AUTH_USERNAME # Declare the auth username as global
         SMS_AUTH_TOKEN = self.env['ir.config_parameter'].sudo().get_param('sms_auth_token')  # Fetch from Odoo settings
+        SMS_AUTH_USERNAME = self.env['ir.config_parameter'].sudo().get_param('sms_auth_username') # Featch from username from odoo settings
         order = super(PosOrder, self).create(vals)
         
         has_patient = order.ncd_patient_id is not None
@@ -90,7 +93,7 @@ class PosOrder(models.Model):
             }
             data = {
                 'recipients': patient.phone,
-                'sender': 'ADBanking',
+                'sender': f'{SMS_AUTH_USERNAME or 'ADBanking'}',
                 'message': message
             }
             try:
@@ -147,7 +150,7 @@ class NcdCommunicationLog(models.Model):
             }
             data = {
                 'recipients': patient.phone,
-                'sender': 'ADBanking',
+                'sender': f'{SMS_AUTH_USERNAME or 'ADBanking'}',
                 'message': message
             }
             try:
@@ -169,15 +172,18 @@ class NcdCommunicationLog(models.Model):
 class SmsSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
+    sms_auth_username = fields.Char(string='SMS Auth Username')
     sms_auth_token = fields.Char(string='SMS Auth Token')
 
     def set_values(self):
         super(SmsSettings, self).set_values()
         self.env['ir.config_parameter'].sudo().set_param('sms_auth_token', self.sms_auth_token)
+        self.env['ir.config_parameter'].sudo().set_param('sms_auth_username', self.sms_auth_username)
 
     def get_values(self):
         res = super(SmsSettings, self).get_values()
         res.update({
             'sms_auth_token': self.env['ir.config_parameter'].sudo().get_param('sms_auth_token'),
+            'sms_auth_username': self.env['ir.config_parameter'].sudo().get_param('sms_auth_username')
         })
         return res
